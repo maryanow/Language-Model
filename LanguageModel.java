@@ -7,16 +7,12 @@
  * Evan Ricks & Iain Maryanow
  * January 2014
  *
- * Usage:
- *  
- *
  */
 
 import java.util.*;
 import java.io.*;
 
-public class LanguageModel 
-{
+public class LanguageModel {
     HashMap<String,Double> p;         // maps ngrams to conditional probabilities
     ArrayList<String> vocab;          // stores the unique words in the input text
     int maxOrder;                     // maximum n-gram order to compute
@@ -35,13 +31,12 @@ public class LanguageModel
     *        in the order they appear in textFilename
     */
     
-   public LanguageModel(String textFilename, int maxOrder, java.util.Random generator, String vocabFile, String countsFile) 
-   {
+   public LanguageModel(String textFilename, int maxOrder, java.util.Random generator, String vocabFile, String countsFile) {
       this.maxOrder = maxOrder;
       this.generator = generator;
       HashMap<String,Integer> ngramCounts = new HashMap<String,Integer>();
       HashMap<String,Integer> historyCounts = new HashMap<String,Integer>();
-      p = new HashMap<String,Double>();
+      p = new HashMap<String,Double>(); // probabilities
       vocab = new ArrayList<String>();        
 
       try(Scanner input = new Scanner(new File(textFilename))) { // Checks for valid source text file
@@ -73,6 +68,7 @@ public class LanguageModel
       boolean flag = true;
       ArrayList<String> tempHistory = new ArrayList<String>(history);
       String wordDrawn; 
+      
       while (flag) {
          wordDrawn = randomNextWord(tempHistory, order); // Stores the word that will be drawn from randomNextWord given history and order.
          if (wordDrawn.equals("</s>") || wordDrawn.equals("<fail>")) { // Stops while loop when end of sentence or fail is reached.
@@ -81,6 +77,7 @@ public class LanguageModel
          System.out.print(" " + wordDrawn);
          tempHistory.add(wordDrawn); // Adds drawn word to the end of the temporary history array list.
       }
+      
       System.out.println();
    }
 
